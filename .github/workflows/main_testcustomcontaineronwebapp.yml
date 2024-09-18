@@ -54,7 +54,7 @@ jobs:
       uses: azure/appservice-settings@v1
       with:
         app-name: 'customcontainergithub'
-        resource-group-name: 'v-yadavprade_rg_1438'
+        slot-name: 'production'
         app-settings-json: |
           [
             {

@@ -54,21 +54,21 @@ jobs:
       uses: azure/appservice-settings@v1
       with:
         app-name: 'customcontainergithub'
-        appSettings: |
+        app-settings-json: |
           [
             {
-            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-            "value":${{ secrets.AZURE_REGISTRY_PASSWORD }},
-            "slotSetting": false
+              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+              "value":${{ secrets.AZURE_REGISTRY_PASSWORD }},
+              "slotSetting": false
             },
             {
-            "name": "DOCKER_REGISTRY_SERVER_URL",
-            "value": "https://ca8b695052e7acr.azurecr.io",
-            "slotSetting": false
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "https://ca8b695052e7acr.azurecr.io",
+              "slotSetting": false
             },
             {
-            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
-            "value": "ca8b695052e7acr",
-            "slotSetting": false
+              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+              "value": "ca8b695052e7acr",
+              "slotSetting": false
             }
           ]

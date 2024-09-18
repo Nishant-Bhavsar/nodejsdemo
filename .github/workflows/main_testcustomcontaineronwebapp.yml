@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://ca8b695052e7acr.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_e2b9850b3bf3484daba92d09985377fd }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_f7b8539084e941c483aae7dd51a590b4 }}
+        username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+        password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ca8b695052e7acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e2b9850b3bf3484daba92d09985377fd }}/testcustomcontaineronwebapp:${{ github.sha }}
+        tags: ca8b695052e7acr.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -45,7 +45,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'testcustomcontaineronwebapp'
+        app-name: 'customcontainergithub'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3677c646e3a74f83a40864ede3cf7ed7 }}
-        images: 'ca8b695052e7acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_e2b9850b3bf3484daba92d09985377fd }}/testcustomcontaineronwebapp:${{ github.sha }}'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        images: 'ca8b695052e7acr.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}'

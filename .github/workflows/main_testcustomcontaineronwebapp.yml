@@ -54,7 +54,7 @@ jobs:
       uses: azure/appservice-settings@v1
       with:
         app-name: 'customcontainergithub'
-        app-settings-json: |
+        appSettings: |
           [
             {
             "name": "DOCKER_REGISTRY_SERVER_PASSWORD",

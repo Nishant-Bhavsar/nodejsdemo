@@ -55,7 +55,6 @@ jobs:
       with:
         app-name: 'customcontainergithub'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         app-settings-json: |
           [
             {
@@ -73,4 +72,4 @@ jobs:
               "value": "ca8b695052e7acr",
               "slotSetting": false
             }
-          ]
+          ]'

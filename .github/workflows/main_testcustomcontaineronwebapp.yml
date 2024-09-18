@@ -50,17 +50,13 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: 'ca8b695052e7acr.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}'
     
-    - name: Log in to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-    
     - name: Update App Settings
       uses: azure/appservice-settings@v1
       with:
         app-name: 'customcontainergithub'
         slot-name: 'production'
-        general-settings-json: |
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        app-settings-json: |
           [
             {
               "name": "DOCKER_REGISTRY_SERVER_PASSWORD",

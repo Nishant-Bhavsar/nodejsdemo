@@ -22,7 +22,7 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v2
       with:
-        registry: https://ca8b695052e7acr.azurecr.io/
+        registry: https://nodecontainerregistry.azurecr.io
         username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
         password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: ca8b695052e7acr.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}
+        tags: nodecontainerregistry.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -41,14 +41,14 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Log in to Azure
-      uses: azure/login@v1
+    - name: Login to Azure
+      uses: azure/login@v2
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-    - name: Update App Settings
-      uses: azure/appservice-settings@v1
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F136915A4EB2429981D1042A9946A5AF }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_3E90F14FC32C48FC812762C8E9E01EB0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_91E0EE0DD6724CB8A47F123FE6E2B76F }}
+
+    - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'customcontainergithub'
-        slot-name: 'production'
-        app-settings-json: '[{"name": "DOCKER_REGISTRY_SERVER_PASSWORD", "value": ${{ secrets.AZURE_REGISTRY_PASSWORD }}, "slotSetting": false}, {"name": "DOCKER_REGISTRY_SERVER_URL", "value": "https://ca8b695052e7acr.azurecr.io", "slotSetting": false}, {"name": "DOCKER_REGISTRY_SERVER_USERNAME", "value": "ca8b695052e7acr", "slotSetting": false}]'
+        app-name: 'pynodecode'
+        images: 'nodecontainerregistry.azurecr.io/${{ secrets.AZURE_REGISTRY_USERNAME }}/customcontainergithub:${{ github.sha }}'
